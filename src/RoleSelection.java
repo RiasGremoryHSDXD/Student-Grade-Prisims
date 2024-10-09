@@ -34,6 +34,7 @@ public class RoleSelection {
         DataVerifier dataVerifier = new DataVerifier();
 
         String user_choose;
+        Object[] teacher_data;
         boolean loop_con = true;
         do
         {
@@ -46,7 +47,12 @@ public class RoleSelection {
             }
             else if (user_choose.equals("N"))
             {
-                this.setupTeacherAcc();
+                teacher_data = this.setupTeacherAcc();
+                dataVerifier.setUser_id((long) teacher_data[0]);
+                dataVerifier.setUser_name((String) teacher_data[1]);
+                dataVerifier.setAccount_email((String) teacher_data[2]);
+                dataVerifier.display();
+                dataVerifier.Account_Authentication();
             }
             else
             {
@@ -56,25 +62,20 @@ public class RoleSelection {
     }
 
 
-    String[] setupTeacherAcc()
+    Object[] setupTeacherAcc()
     {
         InputChecker inputChecker = new InputChecker();
 
         String T_first_name = inputChecker.InputString("First name: ", call_scanner, 100);
         String T_middle_name = inputChecker.InputString("Middle name: ", call_scanner, 100);
         String T_last_name = inputChecker.InputString("Last name: ", call_scanner, 100);
-        long T_ID = inputChecker.InputID("Identification: ", call_scanner, 10);
+        long T_ID = inputChecker.InputID("Identification: ", call_scanner, 1);
         String T_complete_name = T_last_name + ", " + T_first_name + " " + T_middle_name;
         String convert_name_format = inputChecker.toTitleCase(T_complete_name);
+        T_complete_name = convert_name_format;
 
-        String last_name = inputChecker.toTitleCase(T_last_name);
-        String first_name = inputChecker.toTitleCase(T_first_name);
-        String account_name = inputChecker.toAccount(T_last_name, T_first_name);
+        String account_email = inputChecker.toAccount(T_last_name, T_first_name);
 
-        System.out.println("Identification: " + T_ID);
-        System.out.println("Teacher Name: " + convert_name_format);
-        System.out.println("account name: " + account_name);
-
-        return new String[]{};
+        return new Object[]{T_ID, T_complete_name, account_email};
     }
 }
